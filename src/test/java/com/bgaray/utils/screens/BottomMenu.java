@@ -1,4 +1,4 @@
-package com.bgaray.Menus;
+package com.bgaray.utils.screens;
 
 import com.bgaray.utils.screens.BaseScreen;
 import io.appium.java_client.android.AndroidDriver;

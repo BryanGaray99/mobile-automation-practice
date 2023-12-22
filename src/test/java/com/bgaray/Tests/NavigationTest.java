@@ -1,6 +1,6 @@
 package com.bgaray.Tests;
 
-import com.bgaray.Menus.BottomMenu;
+import com.bgaray.utils.screens.BottomMenu;
 import com.bgaray.utils.tests.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import com.bgaray.Screens.HomeScreen;
 
 public class NavigationTest extends BaseTest {
-
     @BeforeMethod
     public void setupPreconditions() {
         BottomMenu bottomMenu = returBottomMenu();

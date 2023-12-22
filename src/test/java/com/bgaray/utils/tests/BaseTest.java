@@ -1,10 +1,9 @@
 package com.bgaray.utils.tests;
 
-import com.bgaray.Menus.BottomMenu;
+import com.bgaray.utils.screens.BottomMenu;
 import com.bgaray.Screens.*;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.FileInputStream;

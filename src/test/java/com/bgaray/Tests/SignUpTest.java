@@ -1,7 +1,7 @@
 package com.bgaray.Tests;
 
-import com.bgaray.DataProvider.DataProvider;
-import com.bgaray.Menus.BottomMenu;
+import com.bgaray.utils.DataProvider.DataProvider;
+import com.bgaray.utils.screens.BottomMenu;
 import com.bgaray.Screens.SignUpScreen;
 import com.bgaray.utils.tests.BaseTest;
 import org.testng.Assert;

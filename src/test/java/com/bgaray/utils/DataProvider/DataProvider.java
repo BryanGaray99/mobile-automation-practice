@@ -1,4 +1,4 @@
-package com.bgaray.DataProvider;
+package com.bgaray.utils.DataProvider;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
