@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -16,14 +17,14 @@ public class SwipeScreen extends BaseScreen {
     private static final String SLIDE_TEXT_CONTAINER = "slideTextContainer";
     public static final String CAROUSEL_CONTAINER = "Carousel";
     private static final String TEXT_VIEW_CLASS = "android.widget.TextView";
-    private static final String VIEW_GROUP_CLASS = "android.view.ViewGroup";
     public static final String CARD_DOT_1 = "new UiSelector().description(\"Carousel\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").instance(9).childSelector(new UiSelector().index(0)).childSelector(new UiSelector().className(\"android.view.ViewGroup\")))";
     public static final String CARD_DOT_2 = "new UiSelector().description(\"Carousel\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").instance(9).childSelector(new UiSelector().index(1)).childSelector(new UiSelector().className(\"android.view.ViewGroup\")))";
     public static final String CARD_DOT_3 = "new UiSelector().description(\"Carousel\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").instance(9).childSelector(new UiSelector().index(2)).childSelector(new UiSelector().className(\"android.view.ViewGroup\")))";
     public static final String CARD_DOT_4 = "new UiSelector().description(\"Carousel\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").instance(9).childSelector(new UiSelector().index(3)).childSelector(new UiSelector().className(\"android.view.ViewGroup\")))";
     public static final String CARD_DOT_5 = "new UiSelector().description(\"Carousel\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").instance(9).childSelector(new UiSelector().index(4)).childSelector(new UiSelector().className(\"android.view.ViewGroup\")))";
     public static final String CARD_DOT_6 = "new UiSelector().description(\"Carousel\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").instance(9).childSelector(new UiSelector().index(5)).childSelector(new UiSelector().className(\"android.view.ViewGroup\")))";
-
+    public static final String ROBOT_IMAGE = "WebdriverIO logo";
+    public static final String ROBOT_TEXT = "new UiSelector().text(\"You found me!!!\")";
     @AndroidFindBy(uiAutomator = SWIPE_TITLE)
     private WebElement swipeTitle;
     @AndroidFindBy(uiAutomator = SWIPE_DESCRIPTION)
@@ -44,6 +45,10 @@ public class SwipeScreen extends BaseScreen {
     private WebElement cardDot5;
     @AndroidFindBy(uiAutomator = CARD_DOT_6)
     private WebElement cardDot6;
+    @AndroidFindBy(accessibility = ROBOT_IMAGE)
+    private WebElement robotImage;
+    @AndroidFindBy(uiAutomator = ROBOT_TEXT)
+    private WebElement robotText;
 
     private static final String[] CARD_TEXTS = {"FULLY OPEN SOURCE", "GREAT COMMUNITY", "JS.FOUNDATION", "SUPPORT VIDEOS", "EXTENDABLE", "COMPATIBLE"};
 
@@ -81,6 +86,14 @@ public class SwipeScreen extends BaseScreen {
             throw new AssertionError("The new card is not populated after swiping left");
         }
         assertDotAndCardIndex();
+    }
+    public void swipeUp() {
+        swipe(getSwipeStartPosition(0.5, 0.20), getSwipeEndPosition(0.5, 0.80), Duration.ofMillis(1500));
+        swipe(getSwipeStartPosition(0.5, 0.20), getSwipeEndPosition(0.5, 0.80), Duration.ofMillis(1500));
+    }
+    public void swipeDown() {
+        swipe(getSwipeStartPosition(0.5, 0.80), getSwipeEndPosition(0.5, 0.20), Duration.ofMillis(1500));
+        swipe(getSwipeStartPosition(0.5, 0.80), getSwipeEndPosition(0.5, 0.20), Duration.ofMillis(1500));
     }
 
     private boolean isOldCardPopulated() {
@@ -139,5 +152,33 @@ public class SwipeScreen extends BaseScreen {
         WebElement visibleCard = (cards.size() == 2) ? cards.get(0) : cards.get(1);
         List<WebElement> textViews = visibleCard.findElements(By.className(TEXT_VIEW_CLASS));
         return textViews.get(0).getText();
+    }
+
+    public void swipeCards(){
+        areSwipeElementsDisplayed();
+        swipeRightAndVerifyCards();
+        swipeLeftAndVerifyCards();
+    }
+
+    public void swipeScreenElementsAssertion() {
+        swipeUp();
+        assertElementVisibility(swipeTitle, "Swipe Title");
+        assertElementVisibility(swipeDescription, "Swipe Description");
+        assertElementVisibility(carouselContainer, "Carousel Container");
+        assertElementVisibility(cardDot1, "Card Dot 1");
+        assertElementVisibility(cardDot2, "Card Dot 2");
+        assertElementVisibility(cardDot3, "Card Dot 3");
+        assertElementVisibility(cardDot4, "Card Dot 4");
+        assertElementVisibility(cardDot5, "Card Dot 5");
+        assertElementVisibility(cardDot6, "Card Dot 6");
+        swipeDown();
+        assertElementVisibility(robotImage, "Robot Image");
+        assertElementVisibility(robotText, "Robot Text");
+        swipeUp();
+    }
+
+    private void assertElementVisibility(WebElement element, String elementName) {
+        waitForVisibilityOfElement(element);
+        Assert.assertTrue(isElementDisplayed(element), elementName + " is not visible.");
     }
 }

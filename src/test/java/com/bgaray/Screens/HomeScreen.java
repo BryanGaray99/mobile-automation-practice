@@ -5,17 +5,20 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
 public class HomeScreen extends BaseScreen {
 
     private static final String HOME_TITLE_SELECTOR = "new UiSelector().text(\"WEBDRIVER\")";
     private static final String HOME_DESCRIPTION_SELECTOR = "new UiSelector().text(\"Demo app for the appium-boilerplate\")";
     private static final String HOME_SUPPORT_SELECTOR = "new UiSelector().text(\"Support\")";
-
-    //TODO: Images
-    public static final String HOME_IMAGE_ROBOT = "";
-    private static final String HOME_ICON_IO = "";
-    private static final String HOME_ICON_APPLE = "";
-    private static final String HOME_ICON_ANDROID = "";
+    private static final String ROBOT_IMG_SELECTOR = "new UiSelector().description(\"Home-screen\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").childSelector(new UiSelector().index(0)))";
+    private static final String WEBDRIVER_IMG_SELECTOR = "new UiSelector().description(\"Home-screen\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").childSelector(new UiSelector().index(2)))";
+    private static final String APPLE_LOGO_IMG_SELECTOR = "new UiSelector().description(\"Home-screen\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").childSelector(new UiSelector().index(4)))";
+    private static final String ANDROID_LOGO_IMG_SELECTOR = "new UiSelector().description(\"Home-screen\").childSelector(new UiSelector().className(\"android.view.ViewGroup\").childSelector(new UiSelector().index(5)))";
 
     @AndroidFindBy(uiAutomator = HOME_TITLE_SELECTOR)
     private WebElement homeScreenTitle;
@@ -26,23 +29,35 @@ public class HomeScreen extends BaseScreen {
     @AndroidFindBy(uiAutomator = HOME_SUPPORT_SELECTOR)
     private WebElement supportTextView;
 
+    @AndroidFindBy(uiAutomator = ROBOT_IMG_SELECTOR)
+    private WebElement robotImage;
+
+    @AndroidFindBy(uiAutomator = WEBDRIVER_IMG_SELECTOR)
+    private WebElement webDriverImage;
+
+    @AndroidFindBy(uiAutomator = APPLE_LOGO_IMG_SELECTOR)
+    private WebElement appleLogoImage;
+
+    @AndroidFindBy(uiAutomator = ANDROID_LOGO_IMG_SELECTOR)
+    private WebElement androidLogoImage;
 
     public HomeScreen(AndroidDriver driver) {
         super(driver);
     }
 
-    public String getHomeScreenTitleText() {
-        waitForVisibilityOfElement(homeScreenTitle);
-        return homeScreenTitle.getText();
+    public void homeScreenElementsAssertion() {
+        assertElementVisibility(homeScreenTitle, "Home Screen Title");
+        assertElementVisibility(demoAppDescription, "Demo App Description");
+        assertElementVisibility(supportTextView, "Support Text View");
+        assertElementVisibility(robotImage, "Robot Image");
+        assertElementVisibility(webDriverImage, "WebDriver Image");
+        assertElementVisibility(appleLogoImage, "Apple Logo Image");
+        assertElementVisibility(androidLogoImage, "Android Logo Image");
     }
 
-    public String getDescriptionText() {
-        waitForVisibilityOfElement(demoAppDescription);
-        return demoAppDescription.getText();
+    private void assertElementVisibility(WebElement element, String elementName) {
+        waitForVisibilityOfElement(element);
+        Assert.assertTrue(isElementDisplayed(element), elementName + " is not visible.");
     }
 
-    public String getSupportText() {
-        waitForVisibilityOfElement(supportTextView);
-        return supportTextView.getText();
-    }
 }

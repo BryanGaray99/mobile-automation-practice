@@ -62,6 +62,22 @@ public class BaseScreen {
         driver.perform(ImmutableList.of(swipe));
     }
 
+    protected void dragAndDropByPercentage(double startXPercentage, double startYPercentage, double endXPercentage, double endYPercentage, Duration duration) {
+        Point start = getCoordinateByPercentage(startXPercentage, startYPercentage);
+        Point end = getCoordinateByPercentage(endXPercentage, endYPercentage);
+
+        PointerInput input = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+        Sequence dragAndDrop = new Sequence(input, 0);
+
+        dragAndDrop.addAction(input.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), start.x, start.y));
+        dragAndDrop.addAction(input.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+
+        dragAndDrop.addAction(input.createPointerMove(duration, PointerInput.Origin.viewport(), end.x, end.y));
+        dragAndDrop.addAction(input.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(ImmutableList.of(dragAndDrop));
+    }
+
     protected Point getSwipeStartPosition(double xPercentage, double yPercentage) {
         int screenWidth = driver.manage().window().getSize().width;
         int screenHeight = driver.manage().window().getSize().height;
@@ -82,15 +98,12 @@ public class BaseScreen {
         return new Point(endX, endY);
     }
 
-    public void assertElementVisible(WebElement element, String errorMessage) {
-        if (!element.isDisplayed()) {
-            throw new AssertionError(errorMessage);
-        }
-    }
+    protected Point getCoordinateByPercentage(double xPercentage, double yPercentage) {
+        Dimension screenSize = driver.manage().window().getSize();
 
-    public void assertElementNotVisible(WebElement element, String errorMessage) {
-        if (element.isDisplayed()) {
-            throw new AssertionError(errorMessage);
-        }
+        int x = (int) (screenSize.width * xPercentage);
+        int y = (int) (screenSize.height * yPercentage);
+
+        return new Point(x, y);
     }
 }

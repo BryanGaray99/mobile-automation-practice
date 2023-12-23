@@ -1,12 +1,10 @@
 package com.bgaray.Tests;
 
+import com.bgaray.Screens.*;
 import com.bgaray.utils.screens.BottomMenu;
 import com.bgaray.utils.tests.BaseTest;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.bgaray.Screens.HomeScreen;
 
 public class NavigationTest extends BaseTest {
     @BeforeMethod
@@ -15,23 +13,32 @@ public class NavigationTest extends BaseTest {
         bottomMenu.navigateToHomeScreen();
     }
     @Test
-    public void testNavigationOnBottomMenuBar() {
-        HomeScreen homeScreen = returnHomeScreen();
+    public void navigationAndPresenceOfElements() {
         BottomMenu bottomMenu = returBottomMenu();
-
-        Assert.assertEquals(homeScreen.getHomeScreenTitleText(), "WEBDRIVER", "Non expected title");
-        Assert.assertEquals(homeScreen.getDescriptionText(), "Demo app for the appium-boilerplate",
-                "Unexpected demo app description");
-        Assert.assertEquals(homeScreen.getSupportText(), "Support", "Unexpected support text");
+        HomeScreen homeScreen = returnHomeScreen();
+        homeScreen.homeScreenElementsAssertion();
 
         bottomMenu.navigateToWebViewSection();
+        WebviewScreen webviewScreen = returnWebviewScreen();
+        webviewScreen.webviewScreenElementsAssertion();
 
         bottomMenu.navigateToLoginSection();
+        LogInScreen logInScreen = returnLogInScreen();
+        logInScreen.loginScreenElementsAssertion();
+
+        SignUpScreen signUpScreen = returnSignUpScreen();
+        signUpScreen.signupScreenElementsAssertion();
 
         bottomMenu.navigateToFormsSection();
+        FormsScreen formsScreen = returnFormsScreen();
+        formsScreen.formsScreenElementsAssertion();
 
         bottomMenu.navigateToSwipeSection();
+        SwipeScreen swipeScreen = returnSwipeScreen();
+        swipeScreen.swipeScreenElementsAssertion();
 
         bottomMenu.navigateToDragSection();
+        DragScreen dragScreen = returnDragScreen();
+        dragScreen.dragScreenElementsAssertion();
     }
 }
